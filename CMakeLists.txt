@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(LevelEditor LANGUAGES CXX)
+
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_INCLUDE_CURRENT_DIR "YES")
+set(CMAKE_AUTOMOC "YES")
+set(CMAKE_AUTOUIC "YES")
+set(CMAKE_AUTORCC "YES")
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+
+find_package(Qt5 COMPONENTS Core Gui Widgets)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_LIST_DIR}/bin/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_LIST_DIR}/bin/)
+
+file(GLOB_RECURSE source source/*.cpp source/*.hpp source/*.ui)
+
+add_compile_definitions(_SCL_SECURE_NO_WARNINGS _CRT_SECURE_NO_WARNINGS _CRT_SECURE_NO_DEPRECATE)
+
+include_directories(source)
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /DEBUG /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+
+add_executable(LevelEditor source/Main.cpp ${source} LevelEditor.rc LevelEditor.qrc)
+
+target_link_libraries(LevelEditor Qt5::Core Qt5::Gui Qt5::Widgets)
